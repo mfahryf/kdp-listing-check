@@ -1,5 +1,7 @@
 # kdp-listing-check
 
+![KDP Listing Check](assets/kdp-listing-check-cover.png)
+
 Check an Amazon KDP book listing against the rules KDP actually publishes,
 before KDP does it for you.
 
