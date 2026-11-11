@@ -7,6 +7,8 @@ before KDP does it for you.
 
 **Use it in your browser, nothing to install: https://mfahryf.github.io/kdp-listing-check/**
 
+The rules themselves, in plain language with examples: [Amazon KDP listing rules on one page](https://mfahryf.github.io/kdp-listing-check/kdp-listing-rules/).
+
 It reads your title, subtitle, description, seven keywords and categories and
 reports what breaks a rule, with a link to the KDP help page for each finding.
 It is a small Python script with no dependencies, packaged as an

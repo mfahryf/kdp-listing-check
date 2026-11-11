@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Amazon KDP listing rules on one page: title, description, keywords, categories</title>
+<meta name="description" content="Every published KDP rule for a book listing in one place: the 4,000-character description limit and supported HTML, what a title and subtitle may contain, the seven keywords and what to keep out of them, and the three categories. With examples and a free checker.">
+<link rel="canonical" href="https://mfahryf.github.io/kdp-listing-check/kdp-listing-rules/">
+<meta property="og:title" content="Amazon KDP listing rules on one page">
+<meta property="og:description" content="Title, description, keywords and categories: what KDP's published rules allow, with examples.">
+<meta property="og:image" content="https://raw.githubusercontent.com/mfahryf/kdp-listing-check/main/assets/kdp-listing-check-cover.png">
+<meta property="og:type" content="article">
+<style>
+  :root { --navy: #0f172a; --ink: #1e293b; --muted: #5b6577; --line: #d8dee8; --bg: #f5f7fa; --accent: #b4532a; --focus: #2563eb; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 17px/1.65 "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif; color: var(--ink); background: #fff; }
+  a { color: #1d4ed8; }
+  a:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+  header { background: var(--navy); color: #f8fafc; padding: 36px 24px 32px; }
+  .wrap { max-width: 760px; margin: 0 auto; }
+  header a { color: #fbbf24; font-weight: 700; font-size: 14px; text-decoration: none; }
+  header a:hover { text-decoration: underline; }
+  h1 { font: 700 clamp(28px, 5vw, 42px)/1.15 Georgia, "Times New Roman", serif; margin: 14px 0 12px; }
+  header p { color: #cbd5e1; margin: 0; font-size: 18px; }
+  main { padding: 12px 24px 56px; }
+  h2 { font: 700 27px/1.25 Georgia, serif; margin: 44px 0 12px; }
+  h3 { font-size: 19px; margin: 28px 0 8px; }
+  table { border-collapse: collapse; width: 100%; font-size: 16px; margin: 12px 0; }
+  th, td { text-align: left; vertical-align: top; padding: 9px 10px; border-bottom: 1px solid var(--line); }
+  thead th { border-bottom: 2px solid var(--ink); }
+  code { font: 15px Consolas, "SFMono-Regular", Menlo, monospace; background: #eef2f7; padding: 1px 5px; border-radius: 4px; }
+  .ex { border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; margin: 14px 0; background: var(--bg); font-size: 16px; }
+  .ex p { margin: 6px 0; }
+  .bad { color: #b42318; font-weight: 700; } .good { color: #17703a; font-weight: 700; }
+  .cta { border: 1px solid #c9d6ea; background: #f1f6fd; border-radius: 12px; padding: 18px 20px; margin: 30px 0; }
+  .cta.kit { border-color: #e6c9b8; background: #fdf6f1; }
+  .cta p { margin: 0 0 8px; } .cta p:last-child { margin: 0; }
+  a.button { display: inline-block; background: var(--navy); color: #fff; font-weight: 700; text-decoration: none; padding: 10px 16px; border-radius: 8px; }
+  .kit a.button { background: var(--accent); }
+  .note { color: var(--muted); font-size: 15px; }
+  footer { border-top: 1px solid var(--line); padding: 22px 24px 40px; font-size: 14px; color: var(--muted); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a href="../">← KDP Listing Checker</a>
+    <h1>Amazon KDP listing rules on one page</h1>
+    <p>What your title, description, keywords and categories may and may not contain, gathered from KDP's own help pages.</p>
+  </div>
+</header>
+
+<main>
+<div class="wrap">
+
+<p>KDP's rules for a book listing are spread across three help pages. None is long, but together they hold a few hard limits and several dozen things to avoid, and it is easy to break one without noticing. This page puts them in one place, in plain language, with examples.</p>
+
+<p class="note">Last checked against KDP's help pages on 11 November 2026. KDP can change its rules at any time; the <a href="#sources">source pages</a> are the authority. Not affiliated with Amazon.</p>
+
+<div class="cta">
+  <p><b>Rather have this checked for you?</b> Paste your listing into the free checker and it flags every rule on this page that it can test, with a link to the KDP page for each finding. It runs in your browser and nothing is uploaded.</p>
+  <p><a class="button" href="../">Open the KDP Listing Checker</a></p>
+</div>
+
+<h2>The limits at a glance</h2>
+<table>
+  <thead><tr><th>Field</th><th>Limit</th></tr></thead>
+  <tbody>
+    <tr><td>Title + subtitle</td><td>Fewer than 200 characters combined</td></tr>
+    <tr><td>Description</td><td>4,000 characters, and HTML tags count</td></tr>
+    <tr><td>Keywords</td><td>Up to seven words or short phrases</td></tr>
+    <tr><td>Categories</td><td>Up to three</td></tr>
+  </tbody>
+</table>
+
+<h2>Title and subtitle</h2>
+<p>The title field is for the title as it appears on your cover, and nothing else. The subtitle is optional and follows the same rules. Together they must come to fewer than 200 characters.</p>
+<p>What does not belong in either:</p>
+<ul>
+  <li>Generic words repeated to catch searches, such as "notebook", "journal", "gifts" or "books".</li>
+  <li>Other books, other authors, or trademarks you are not authorised to use.</li>
+  <li>Anything suggesting someone contributed to the book who did not.</li>
+  <li>Sales-rank claims such as "bestselling".</li>
+  <li>Advertising or promotional words such as "free".</li>
+  <li>Punctuation only, or a placeholder such as "unknown", "n/a" or "none".</li>
+  <li>HTML tags.</li>
+  <li>Extra descriptive padding beyond the real title.</li>
+</ul>
+<div class="ex">
+  <p><span class="bad">Breaks the rules:</span> The Lighthouse Keeper's Daughter: A Bestselling Gripping Historical Mystery Novel Book</p>
+  <p><span class="good">Fine:</span> The Lighthouse Keeper's Daughter</p>
+  <p>The first adds a sales-rank claim and descriptive padding. What kind of book it is belongs in the description, the categories and the keywords.</p>
+</div>
+<p>Two more points. If one book holds several stories, the title should say so with a word like "Collection" or "Compilation". And KDP notes that customers tend to skim past titles longer than 60 characters, which is advice rather than a rule.</p>
+
+<h3>Series, author and contributors</h3>
+<ul>
+  <li>A series name follows the title rules. Public-domain and low-content books, such as notebooks and journals, are not eligible for series.</li>
+  <li>The author field is for the primary contributor. Pen names are allowed as long as they do not mislead buyers.</li>
+  <li>List only people who actually worked on this book. No keywords and no HTML in these fields.</li>
+  <li>A translation credits both the translator and the original author.</li>
+</ul>
+
+<h2>Description</h2>
+<p>The description may be up to 4,000 characters, and that count includes any HTML tags. A bold word written as <code>&lt;b&gt;test&lt;/b&gt;</code> uses 11 characters, not 4. The live counter in KDP's editor counts the same way.</p>
+
+<h3>HTML that works</h3>
+<table>
+  <thead><tr><th>Tag</th><th>Use</th></tr></thead>
+  <tbody>
+    <tr><td><code>&lt;p&gt;</code></td><td>Paragraph</td></tr>
+    <tr><td><code>&lt;br&gt;</code></td><td>Line break</td></tr>
+    <tr><td><code>&lt;b&gt;</code>, <code>&lt;i&gt;</code>, <code>&lt;em&gt;</code>, <code>&lt;u&gt;</code></td><td>Bold, italic, emphasis, underline</td></tr>
+    <tr><td><code>&lt;h4&gt;</code>, <code>&lt;h5&gt;</code>, <code>&lt;h6&gt;</code></td><td>Headings; <code>&lt;h4&gt;</code> is the largest</td></tr>
+    <tr><td><code>&lt;ul&gt;</code>, <code>&lt;ol&gt;</code> with <code>&lt;li&gt;</code></td><td>Bulleted and numbered lists</td></tr>
+  </tbody>
+</table>
+<p>What does not work: <code>&lt;h1&gt;</code>, <code>&lt;h2&gt;</code> and <code>&lt;h3&gt;</code>; lists without <code>&lt;li&gt;</code> items; several spaces in a row, which are not displayed; and stray angle brackets such as <code>&lt;&lt;</code> or <code>&lt;&gt;</code>.</p>
+<div class="ex">
+  <p><span class="bad">Breaks the rules:</span> <code>&lt;h2&gt;About this book&lt;/h2&gt;</code></p>
+  <p><span class="good">Fine:</span> <code>&lt;h4&gt;About this book&lt;/h4&gt;</code></p>
+</div>
+
+<h3>What a description may not contain</h3>
+<ul>
+  <li>Website addresses, email addresses, phone numbers or postal addresses.</li>
+  <li>Reviews, quotes or testimonials.</li>
+  <li>Requests for customer reviews.</li>
+  <li>Advertisements or promotional material.</li>
+  <li>Time-sensitive information, such as the dates of a tour or an event.</li>
+  <li>Price, availability or other ordering information.</li>
+  <li>Spoilers.</li>
+  <li>Emoji.</li>
+  <li>Keywords or tag phrases.</li>
+  <li>Pornographic, obscene or offensive content.</li>
+</ul>
+<div class="ex">
+  <p><span class="bad">Breaks the rules:</span> "I could not put it down" — a reader. Only $0.99 this week! More at my website. Please leave a review!</p>
+  <p>That one line holds a testimonial, a price, time-sensitive wording, a pointer to a website and a review request. Each is on the list above.</p>
+</div>
+<p>A year or a date that is part of the story, such as "Cornwall, 1887", is not time-sensitive information. A launch date or a sale deadline is.</p>
+<p>The most common slip is a list of search phrases at the end of the description. Those belong in the keyword fields.</p>
+
+<h2>Keywords</h2>
+<p>You have up to seven keyword fields. Each can hold a word or a short phrase; KDP's metadata guidelines recommend phrases of two or three words. Put the words in the order a person would type them: "military science fiction", not "fiction science military".</p>
+
+<h3>What works</h3>
+<p>KDP suggests using keywords for what will not fit in your title or description. It names five useful kinds:</p>
+<ul>
+  <li><b>Setting:</b> the place, period or world.</li>
+  <li><b>Character types:</b> who the story is about.</li>
+  <li><b>Character roles:</b> the part they play.</li>
+  <li><b>Plot themes:</b> what the story turns on.</li>
+  <li><b>Story tone:</b> how it feels to read.</li>
+</ul>
+
+<h3>What is not allowed</h3>
+<ul>
+  <li>Other authors, or books by other authors.</li>
+  <li>Sales-rank claims such as "bestselling".</li>
+  <li>Advertising or promotional words such as "free".</li>
+  <li>Anything unrelated to the book.</li>
+  <li>HTML tags.</li>
+</ul>
+
+<h3>What to avoid</h3>
+<ul>
+  <li>Words already in your title, author name or categories. KDP lists these as information to leave out; use the field for something new.</li>
+  <li>Subjective claims about quality.</li>
+  <li>Time-sensitive words such as "new", "on sale" or "available now".</li>
+  <li>Words common to nearly everything in the store, such as "book".</li>
+  <li>Spelling mistakes.</li>
+  <li>Variants of the same keyword in spacing, punctuation, capitals or plurals.</li>
+  <li>Brands you do not own.</li>
+  <li>Quotation marks.</li>
+  <li>Amazon program names such as "Kindle Unlimited" or "KDP Select".</li>
+</ul>
+<div class="ex">
+  <p><span class="bad">Wasted or not allowed:</span> best historical mystery book · "cornish mystery" · kindle unlimited mystery · free mystery · victorian smugglers · victorian smuggler</p>
+  <p><span class="good">Better:</span> amateur detective · smugglers and wreckers · father and child secrets · nineteenth century england</p>
+  <p>The first set has a quality claim, the word "book", quotation marks, a program name, a promotional word, and two plural variants of one phrase.</p>
+</div>
+
+<h3>How to test a keyword</h3>
+<p>No rule tells you whether shoppers actually type a phrase. KDP's own advice is to search Amazon with it before you publish: type it into the search bar, look at the suggestions that appear, then look at the results. If the books on the first page would sit beside yours on a shelf, the phrase fits. If they would not, change it.</p>
+<p>Keywords and descriptions can be changed in KDP as often as you like, so nothing here is permanent. If your book is in several formats, keep them consistent across formats.</p>
+
+<h2>Categories</h2>
+<p>You may choose up to three categories. They must be relevant to the book's central storyline. Choosing a category because it looks easier to rank in, when the book does not belong there, is against the rules.</p>
+
+<h2>A checklist before you publish</h2>
+<ol>
+  <li>Is the title exactly what is on the cover?</li>
+  <li>Are the title and subtitle together under 200 characters?</li>
+  <li>Is the description under 4,000 characters with the HTML counted?</li>
+  <li>Does the description use only the supported tags?</li>
+  <li>Is it free of links, prices, dates, reviews, review requests and emoji?</li>
+  <li>Are there no keyword lists in the description?</li>
+  <li>Does each of the seven keywords say something your title and categories do not?</li>
+  <li>Are the keywords free of claims, "book", program names and quotation marks?</li>
+  <li>Have you searched Amazon for each keyword?</li>
+  <li>Do all three categories describe the whole book?</li>
+</ol>
+
+<div class="cta">
+  <p>Items 2 to 8 are mechanical, and a script is better at them than a tired author. The free checker does them in a few seconds.</p>
+  <p><a class="button" href="../">Check your listing</a></p>
+</div>
+
+<div class="cta kit">
+  <p><b>Need the listing written, not just checked?</b> Book Launch Kit adds guided workflows to the AI assistant you already use. It writes the description from your manuscript, builds the seven keywords, drafts your author bio and launch emails, and checks the result against the rules above.</p>
+  <p><a class="button" href="https://xixlabs.gumroad.com/l/book-launch-kit">See Book Launch Kit</a></p>
+</div>
+
+<h2 id="sources">Sources</h2>
+<ul>
+  <li><a href="https://kdp.amazon.com/en_US/help/topic/G201097560">Metadata Guidelines for Books</a> (title, subtitle, series, author, description, keywords, categories)</li>
+  <li><a href="https://kdp.amazon.com/en_US/help/topic/G201298500">Make Your Book More Discoverable with Keywords</a></li>
+  <li><a href="https://kdp.amazon.com/en_US/help/topic/G201189630">Write a Book Description</a> (character limit and supported HTML)</li>
+</ul>
+<p class="note">This page summarises those three pages in its own words. It covers the listing only. KDP's content guidelines, including what must be disclosed about AI-generated book content, are separate: <a href="https://kdp.amazon.com/en_US/help/topic/G200672390">Content Guidelines</a>. Following everything here does not guarantee that KDP accepts a listing.</p>
+
+</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    Part of <a href="https://github.com/mfahryf/kdp-listing-check">kdp-listing-check</a>, open source (MIT). Not affiliated with or endorsed by Amazon. "KDP" and "Kindle" are trademarks of Amazon.com, Inc. or its affiliates.
+  </div>
+</footer>
+</body>
+</html>
