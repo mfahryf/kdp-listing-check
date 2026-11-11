@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KDP Listing Checker: check your book description, keywords and title against Amazon KDP's rules</title>
+<meta name="description" content="Free checker for Amazon KDP book listings. Paste your title, description, seven keywords and categories and see what breaks KDP's published rules: the 4,000-character description limit, unsupported HTML, prohibited keywords and more. Runs in your browser.">
+<link rel="canonical" href="https://mfahryf.github.io/kdp-listing-check/">
+<meta property="og:title" content="KDP Listing Checker">
+<meta property="og:description" content="Find what breaks Amazon KDP's listing rules before you publish. Free, runs in your browser.">
+<meta property="og:image" content="https://raw.githubusercontent.com/mfahryf/kdp-listing-check/main/assets/kdp-listing-check-cover.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+  :root {
+    --navy: #0f172a; --ink: #1e293b; --muted: #5b6577; --line: #d8dee8; --bg: #f5f7fa; --card: #fff;
+    --fail: #b42318; --fail-bg: #fef3f2; --warn: #93570a; --warn-bg: #fffaeb; --note: #3b5b8c; --note-bg: #eff4fb;
+    --ok: #17703a; --ok-bg: #ecfdf3; --accent: #b4532a; --focus: #2563eb;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 16px/1.55 "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif; color: var(--ink); background: var(--bg); }
+  a { color: #1d4ed8; }
+  header { background: var(--navy); color: #f8fafc; padding: 40px 24px 36px; }
+  .wrap { max-width: 1120px; margin: 0 auto; }
+  header .tag { color: #fbbf24; font-weight: 700; letter-spacing: .06em; font-size: 13px; margin: 0 0 10px; }
+  h1 { font: 700 clamp(30px, 5vw, 46px)/1.1 Georgia, "Times New Roman", serif; margin: 0 0 12px; }
+  header p.lead { font-size: 19px; color: #cbd5e1; margin: 0; max-width: 46em; }
+  header p.private { font-size: 14px; color: #94a3b8; margin: 14px 0 0; }
+  main { padding: 28px 24px 56px; }
+  .tool { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; align-items: start; }
+  @media (max-width: 860px) { .tool { grid-template-columns: 1fr; } }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 22px; }
+  .results { position: sticky; top: 16px; max-height: calc(100vh - 32px); overflow: auto; }
+  @media (max-width: 860px) { .results { position: static; max-height: none; } }
+  h2 { font: 700 20px/1.3 Georgia, serif; margin: 0 0 14px; }
+  label { display: block; font-weight: 600; font-size: 14px; margin: 16px 0 6px; }
+  label:first-of-type { margin-top: 0; }
+  .hint { font-weight: 400; color: var(--muted); }
+  input[type=text], textarea {
+    width: 100%; font: inherit; color: inherit; padding: 9px 11px; border: 1px solid #b8c1cf; border-radius: 8px; background: #fff;
+  }
+  textarea { resize: vertical; }
+  textarea.mono { font: 14px/1.5 Consolas, "SFMono-Regular", Menlo, monospace; }
+  input:focus-visible, textarea:focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 520px) { .row { grid-template-columns: 1fr; } }
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+  button { font: 600 14px/1 inherit; padding: 10px 14px; border-radius: 8px; border: 1px solid #b8c1cf; background: #fff; color: var(--ink); cursor: pointer; }
+  button:hover { background: #eef2f7; }
+  .counts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 0 0 16px; padding: 0; list-style: none; }
+  .counts li { border: 1px solid var(--line); border-radius: 8px; padding: 9px 11px; font-size: 13px; color: var(--muted); }
+  .counts b { display: block; font-size: 18px; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .counts li.over { border-color: var(--fail); background: var(--fail-bg); }
+  .counts li.over b { color: var(--fail); }
+  .summary { font-weight: 700; padding: 10px 12px; border-radius: 8px; margin: 0 0 14px; }
+  .summary.clean { background: var(--ok-bg); color: var(--ok); }
+  .summary.fail { background: var(--fail-bg); color: var(--fail); }
+  .summary.warn { background: var(--warn-bg); color: var(--warn); }
+  .summary.idle { background: #eef2f7; color: var(--muted); font-weight: 400; }
+  .finding { border-left: 4px solid; border-radius: 6px; padding: 9px 12px; margin: 0 0 8px; font-size: 15px; }
+  .finding.FAIL { border-color: var(--fail); background: var(--fail-bg); }
+  .finding.WARN { border-color: #d9a441; background: var(--warn-bg); }
+  .finding.NOTE { border-color: #8aa6d1; background: var(--note-bg); }
+  .finding .level { font: 700 12px/1 Consolas, monospace; letter-spacing: .04em; margin-right: 8px; }
+  .finding.FAIL .level { color: var(--fail); } .finding.WARN .level { color: var(--warn); } .finding.NOTE .level { color: var(--note); }
+  .finding .field { font-weight: 600; overflow-wrap: anywhere; }
+  .finding .msg { display: block; margin-top: 3px; overflow-wrap: anywhere; }
+  .finding a { font-size: 13px; white-space: nowrap; }
+  .legend { font-size: 13px; color: var(--muted); margin: 14px 0 0; }
+  section.text { max-width: 760px; margin: 44px auto 0; }
+  section.text h2 { font-size: 24px; margin-top: 36px; }
+  section.text table { border-collapse: collapse; width: 100%; font-size: 15px; }
+  section.text th, section.text td { text-align: left; vertical-align: top; padding: 9px 10px; border-bottom: 1px solid var(--line); }
+  section.text th { width: 9.5em; }
+  .cta { border: 1px solid #e6c9b8; background: #fdf6f1; border-radius: 12px; padding: 22px; margin-top: 36px; }
+  .cta h2 { margin-top: 0; }
+  .cta a.button { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; text-decoration: none; padding: 11px 18px; border-radius: 8px; margin-top: 6px; }
+  .cta a.button:hover { background: #9a4522; }
+  footer { border-top: 1px solid var(--line); padding: 22px 24px 40px; font-size: 14px; color: var(--muted); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <p class="tag">FREE · OPEN SOURCE</p>
+    <h1>KDP Listing Checker</h1>
+    <p class="lead">Paste your book's title, description, keywords and categories. See what breaks Amazon KDP's published rules before you publish.</p>
+    <p class="private">Runs entirely in your browser. Your listing is not uploaded anywhere; it is only remembered on this device so you can come back to it.</p>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="tool">
+      <form class="card" id="form" autocomplete="off" onsubmit="return false">
+        <h2>Your listing</h2>
+        <label for="title">Book title</label>
+        <input type="text" id="title" name="title">
+        <label for="subtitle">Subtitle <span class="hint">(optional)</span></label>
+        <input type="text" id="subtitle" name="subtitle">
+        <div class="row">
+          <div>
+            <label for="series">Series <span class="hint">(optional)</span></label>
+            <input type="text" id="series" name="series">
+          </div>
+          <div>
+            <label for="author">Author</label>
+            <input type="text" id="author" name="author">
+          </div>
+        </div>
+        <label for="description">Description <span class="hint">exactly as entered in KDP, HTML included</span></label>
+        <textarea class="mono" id="description" name="description" rows="10" spellcheck="false"></textarea>
+        <label for="keywords">Keywords <span class="hint">one per line, up to seven</span></label>
+        <textarea id="keywords" name="keywords" rows="7" spellcheck="false"></textarea>
+        <label for="categories">Categories <span class="hint">one per line, up to three</span></label>
+        <textarea id="categories" name="categories" rows="3" spellcheck="false"></textarea>
+        <div class="actions">
+          <button type="button" id="example">Load an example with problems</button>
+          <button type="button" id="clear">Clear</button>
+        </div>
+      </form>
+
+      <div class="card results">
+        <h2>Result</h2>
+        <ul class="counts" id="counts"></ul>
+        <div id="report" aria-live="polite"></div>
+        <p class="legend"><b>FAIL</b> is certain: a count over a limit, an unsupported tag, a link. <b>WARN</b> is a word match that needs your judgement: "free" in the title <i>Free Fall</i> is fine. Each finding links to the KDP help page it comes from.</p>
+      </div>
+    </div>
+
+    <section class="text">
+      <h2>What it checks</h2>
+      <table>
+        <tr><th>Title, subtitle, series</th><td>Title and subtitle together must be fewer than 200 characters. No sales-rank words ("bestselling"), no promotional words, no HTML, no placeholders, no repeated generic words. KDP notes that customers skim past titles longer than 60 characters.</td></tr>
+        <tr><th>Description</th><td>4,000 characters at most, and HTML tags count. Only these tags are supported: <code>&lt;br&gt; &lt;p&gt; &lt;b&gt; &lt;em&gt; &lt;i&gt; &lt;u&gt; &lt;h4&gt; &lt;h5&gt; &lt;h6&gt; &lt;ol&gt; &lt;ul&gt; &lt;li&gt;</code>. No website addresses, emails or phone numbers, no reviews or quotes, no requests for reviews, no prices, no time-sensitive information, no emoji, no keyword lists.</td></tr>
+        <tr><th>Keywords</th><td>Up to seven. Avoid words already in your title, author name or categories, subjective claims ("best"), time-sensitive words ("new"), words common to everything in the store ("book"), Amazon program names, quotation marks, and spelling, spacing or plural variants of each other.</td></tr>
+        <tr><th>Categories</th><td>Up to three.</td></tr>
+      </table>
+      <p>The rules come from three KDP help pages, checked on 11 November 2026: <a href="https://kdp.amazon.com/en_US/help/topic/G201097560">Metadata Guidelines for Books</a>, <a href="https://kdp.amazon.com/en_US/help/topic/G201298500">Make Your Book More Discoverable with Keywords</a> and <a href="https://kdp.amazon.com/en_US/help/topic/G201189630">Write a Book Description</a>. KDP can change them. If a finding looks wrong, the linked page wins.</p>
+
+      <h2>What it cannot tell you</h2>
+      <ul>
+        <li>Which keywords shoppers type, or whether your book will rank. It has no Amazon search data. To test a keyword, type it into Amazon's search bar and look at the suggestions and the first page of results.</li>
+        <li>Whether a keyword names another author or a brand you do not own, or whether your categories fit your book. Those need a person.</li>
+        <li>Whether KDP will accept the listing. Passing every check is not a guarantee.</li>
+      </ul>
+
+      <div class="cta">
+        <h2>Want the blurb, keywords, bio and launch emails written too?</h2>
+        <p><b>Book Launch Kit</b> adds seven guided workflows to the AI assistant you already use. It builds a brief from your manuscript, writes the Amazon description, the seven keywords, your author bio and series page, launch emails and promo copy, and a dated launch plan, and checks everything that goes into your listing with this same checker.</p>
+        <a class="button" href="https://xixlabs.gumroad.com/l/book-launch-kit">See Book Launch Kit</a>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    Open source (MIT): <a href="https://github.com/mfahryf/kdp-listing-check">github.com/mfahryf/kdp-listing-check</a>, where the same checker is also a Python script and an Agent Skill for AI assistants. Not affiliated with or endorsed by Amazon. "KDP" and "Kindle" are trademarks of Amazon.com, Inc. or its affiliates.
+  </div>
+</footer>
+
+<script src="check.js"></script>
+<script>
+(function () {
+  const FIELDS = ["title", "subtitle", "series", "author", "description", "keywords", "categories"];
+  const KEY = "kdp-listing-check";
+  const el = (id) => document.getElementById(id);
+  const lines = (s) => s.split("\n").map((x) => x.trim()).filter(Boolean);
+
+  const EXAMPLE = {
+    title: "The Lighthouse Keeper's Daughter: A Bestselling Gripping Historical Mystery Novel Book",
+    subtitle: "A FREE Cornish Coast Mystery Book for Fans of Historical Fiction, Family Secrets, Smugglers, Shipwrecks and Strong Female Leads (Cornish Coast Mysteries Book 1)",
+    series: "Cornish Coast Mysteries",
+    author: "Mara Ellison",
+    description: "<h2>The #1 mystery of the year!</h2><p>\"I could not put it down\" — Jane, Goodreads reviewer</p><p>Cornwall, 1887.  When the lamp goes dark, Tamsin Pascoe finds her father gone and a stranger's body on the rocks 😱</p><ul>Smugglers<br>Shipwrecks</ul><p>Only $0.99 until March 3! Order now at www.maraellison.com or email mara@maraellison.com. Please leave a review!</p><p>Keywords: cornish mystery, historical mystery, lighthouse, smugglers, victorian, cozy mystery, family secrets</p>",
+    keywords: "lighthouse keeper's daughter\nbest historical mystery book\n\"cornish mystery\"\nkindle unlimited mystery\nfree mystery\nVictorian smugglers\nvictorian smuggler\nnew release 2026",
+    categories: "Fiction > Mystery > Historical\nFiction > Historical > Victorian\nFiction > Women Sleuths\nFiction > Sea Stories",
+  };
+
+  function read() {
+    const v = {};
+    FIELDS.forEach((f) => (v[f] = el(f).value));
+    return v;
+  }
+  function write(v) {
+    FIELDS.forEach((f) => (el(f).value = v[f] || ""));
+    run();
+  }
+
+  function node(tag, cls, text) {
+    const n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text !== undefined) n.textContent = text;
+    return n;
+  }
+
+  function run() {
+    const v = read();
+    try { localStorage.setItem(KEY, JSON.stringify(v)); } catch (e) { /* private mode: fine */ }
+    const empty = FIELDS.every((f) => !v[f].trim());
+    const { findings, counts } = checkListing({
+      title: v.title, subtitle: v.subtitle, series: v.series, author: v.author,
+      description: v.description, keywords: lines(v.keywords), categories: lines(v.categories),
+    });
+
+    const meters = [
+      ["Title + subtitle", counts.title_subtitle_chars, counts.title_subtitle_max, "characters"],
+      ["Description", counts.description_chars, counts.description_max, "characters, HTML included"],
+      ["Keywords", counts.keywords, counts.keywords_max, "fields"],
+      ["Categories", counts.categories, counts.categories_max, ""],
+    ];
+    const ul = el("counts");
+    ul.replaceChildren(...meters.map(([name, n, max, unit]) => {
+      const li = node("li", n > max ? "over" : "");
+      li.append(node("b", "", n.toLocaleString("en-US") + " / " + max.toLocaleString("en-US")), name + (unit ? ", " + unit : ""));
+      return li;
+    }));
+
+    const report = el("report");
+    if (empty) {
+      report.replaceChildren(node("p", "summary idle", "Fill in your listing on the left, or load the example, and the findings appear here as you type."));
+      return;
+    }
+    const n = (lvl) => findings.filter((f) => f.level === lvl).length;
+    const fails = n("FAIL"), warns = n("WARN");
+    const summary = fails ? node("p", "summary fail", fails + (fails === 1 ? " rule broken" : " rules broken") + (warns ? ", " + warns + (warns === 1 ? " warning" : " warnings") + " to review" : ""))
+      : warns ? node("p", "summary warn", "No rule broken. " + warns + (warns === 1 ? " warning" : " warnings") + " to review.")
+      : node("p", "summary clean", "No problems found against KDP's published rules.");
+    const order = { FAIL: 0, WARN: 1, NOTE: 2 };
+    // One card per level + field, so a keyword with four problems is one card, not four.
+    const groups = new Map();
+    findings.slice().sort((a, b) => order[a.level] - order[b.level]).forEach((f) => {
+      const key = f.level + "\n" + f.field;
+      if (!groups.has(key)) {
+        const d = node("div", "finding " + f.level);
+        d.append(node("span", "level", f.level), node("span", "field", f.field));
+        groups.set(key, d);
+      }
+      const msg = node("span", "msg", f.message + " ");
+      const a = node("a", "", "KDP rule");
+      a.href = f.source; a.target = "_blank"; a.rel = "noopener";
+      msg.append(a);
+      groups.get(key).append(msg);
+    });
+    report.replaceChildren(summary, ...groups.values());
+  }
+
+  let timer;
+  el("form").addEventListener("input", () => { clearTimeout(timer); timer = setTimeout(run, 150); });
+  el("example").addEventListener("click", () => write(EXAMPLE));
+  el("clear").addEventListener("click", () => write({}));
+
+  let saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch (e) { saved = {}; }
+  write(saved);
+})();
+</script>
+</body>
+</html>

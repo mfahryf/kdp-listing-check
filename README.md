@@ -5,6 +5,8 @@
 Check an Amazon KDP book listing against the rules KDP actually publishes,
 before KDP does it for you.
 
+**Use it in your browser, nothing to install: https://mfahryf.github.io/kdp-listing-check/**
+
 It reads your title, subtitle, description, seven keywords and categories and
 reports what breaks a rule, with a link to the KDP help page for each finding.
 It is a small Python script with no dependencies, packaged as an
@@ -83,6 +85,7 @@ one does not work.
 
 ```
 python scripts/test_check_listing.py
+python scripts/test_web_parity.py    # web version reports the same as the script; needs Node.js
 ```
 
 ## Want the whole launch done?
