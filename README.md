@@ -90,7 +90,9 @@ python scripts/test_check_listing.py
 This checker is the free part of **Book Launch Kit**, a set of workflows that
 writes the blurb from your manuscript, builds the seven keywords, drafts your
 author bio and series page, and prepares launch emails and promo copy, all
-checked by this script: <!-- TODO: Gumroad link -->
+checked by this script: https://xixlabs.gumroad.com/l/book-launch-kit
+
+The checker is also on Gumroad, pay what you want: https://xixlabs.gumroad.com/l/kdp-listing-check
 
 ## License
 
